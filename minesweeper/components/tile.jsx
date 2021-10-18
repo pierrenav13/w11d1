@@ -5,16 +5,18 @@ class Tile extends React.Component {
         let tileText = '';
         let klass = 'tile';
         if (this.props.tile.explored){
-            tileText = 'E';
+            tileText = `${this.props.tile.adjacentBombCount()}`;
             klass += ' explored'
         } else if(this.props.tile.bombed){
-            tileText = 'B';
+            tileText = ' ';
             klass += ' bombed'
-        } else if(this.props.tile.flagged){
+        }  else{
+            tileText = ' ';
+        }
+
+        if (this.props.tile.flagged) {
             tileText = 'F';
             klass += ' flagged'
-        } else{
-            tileText = 'T';
         }
 
         return(
