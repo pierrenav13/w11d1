@@ -1,0 +1,11 @@
+.board{
+    display: flex;
+    width: 50%;
+}
+
+.tile{
+    border-style: inset;
+    border-style: outset;
+    height: 25px;
+    width: 25px;
+}

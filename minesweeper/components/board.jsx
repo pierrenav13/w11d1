@@ -3,8 +3,9 @@ import Tile from './tile';
 
 class Board extends React.Component {
     render(){
+        console.log(this.props.board.grid);
         return (
-            <div>
+            <div className='board'>
                 {this.props.board.grid.map((row, index) => {
                     return <div key={index}>
                         {row.map((tile, tIndex) => {

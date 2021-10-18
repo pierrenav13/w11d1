@@ -55,7 +55,10 @@ var Board = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       var _this = this;
 
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, this.props.board.grid.map(function (row, index) {
+      console.log(this.props.board.grid);
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+        className: "board"
+      }, this.props.board.grid.map(function (row, index) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
           key: index
         }, row.map(function (tile, tIndex) {
@@ -135,10 +138,27 @@ var Game = /*#__PURE__*/function (_React$Component) {
 
   _createClass(Game, [{
     key: "updateGame",
-    value: function updateGame() {}
+    value: function updateGame(tile, flagged) {
+      if (flagged) {
+        tile.toggleFlag();
+      } else {
+        tile.explore();
+      }
+
+      this.setState({
+        board: this.state.board
+      });
+    }
   }, {
     key: "render",
     value: function render() {
+      // console.log(this.state.board);
+      if (this.state.board.lost()) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, "You Lost!");
+      } else if (this.state.board.won()) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, "You Won!");
+      }
+
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_board__WEBPACK_IMPORTED_MODULE_1__["default"], {
         board: this.state.board,
         updateGame: this.updateGame
@@ -202,7 +222,33 @@ var Tile = /*#__PURE__*/function (_React$Component) {
   _createClass(Tile, [{
     key: "render",
     value: function render() {
-      return 'T';
+      var tileText = '';
+      var klass = 'tile';
+
+      if (this.props.tile.explored) {
+        tileText = 'E';
+        klass += ' explored';
+      } else if (this.props.tile.bombed) {
+        tileText = 'B';
+        klass += ' bombed';
+      } else if (this.props.tile.flagged) {
+        tileText = 'F';
+        klass += ' flagged';
+      } else {
+        tileText = 'T';
+      }
+
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+        className: klass,
+        onClick: this.handleClick.bind(this)
+      }, tileText);
+    }
+  }, {
+    key: "handleClick",
+    value: function handleClick(e) {
+      console.log(e);
+      console.log(this);
+      this.props.updateGame(this.props.tile, e.altKey);
     }
   }]);
 
